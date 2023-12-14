@@ -1,0 +1,11 @@
+<div repeat.for="r of testRuns">
+    <div>
+        ${r.name}
+    </div>
+    <table style="border-collapse: collapse;font: size 10px;">
+        <tr>
+            <td repeat.for="t of r.tests" style="width: 5px;height:5px;background-color:${statusColor(t.result)};"
+                title="${t.title}">${statusMark(t.result)}</td>
+        </tr>
+    </table>
+</div>
