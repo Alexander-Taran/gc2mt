@@ -1,8 +1,13 @@
-<div repeat.for="r of testRuns">
+<div repeat.for="r of store.testRuns">
     <div>
         ${r.name}
+        <template if.bind="r.testDetails">
+            on ${r.testDetails.host}
+            <a if.bind="r.testDetails.jobUrl" href="${r.testDetails.jobUrl}">${r.testDetails.jobUrl}</a>
+        </template>
     </div>
-    <table style="border-collapse: collapse;font: size 10px;">
+
+    <table style="border-collapse: collapse;font-size: 10px;">
         <tr>
             <td repeat.for="t of r.tests" style="width: 5px;height:5px;background-color:${statusColor(t.result)};"
                 title="${t.title}">${statusMark(t.result)}</td>

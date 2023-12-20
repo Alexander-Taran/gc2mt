@@ -1,12 +1,16 @@
 import { io, Socket } from "socket.io-client";
-import { TestRun, TestDetail, TestResult } from "../shared/objects-model";
+import { TestResult } from "../shared/objects-model";
+import { TestRunStore } from "../shared/test-run-store";
 
 
 export class TestRuns {
   public message = 'Welcome to Aurelia 2!';
   socket: Socket;
-  testsStats = new Map<string, unknown>()
-  testRuns: TestRun[] = []
+  // testsStats = new Map<string, unknown>();
+
+  //
+
+  store = new TestRunStore();
 
   statusColor(result: TestResult) {
     switch (result?.outcome) {
@@ -32,33 +36,13 @@ export class TestRuns {
   }
 
   attached() {
-    this.socket = io("http://10.70.2.171:3005/dashboard");
-    this.socket.on("test-run-start", (reportId: string, testRunDetails: { tests: TestDetail[] }) => {
-      this.testRunStarted(reportId, testRunDetails)
-    })
-
-    this.socket.on("test-finish", (reportId, testId, result: TestResult) => {
-      this.testFinished(reportId, testId, result)
-    })
-
-    // this.socket.onAny((...args) => {
-
-    //   this.message = JSON.stringify([...args])
-    // })
-  }
-  testFinished(reportId: string, testId: string, result: TestResult) {
-    const testRun = this.testRuns.find(r => r.name == reportId)
-    if (testRun) {
-      const test = testRun.tests.find(t => t.id === testId)
-      test.result = result
-    }
-  }
-  testRunStarted(reportId: string, testRunDetails: { tests: TestDetail[] }) {
-
-    this.testRuns.push({ name: reportId, tests: testRunDetails.tests })
+    this.socket = io("/dashboard");
+    this.socket.on("test-run-start", this.store.addRunHandler)
+    this.socket.on("test-finish", this.store.updateTestHandler)
   }
 
   detached() {
+    this.socket.offAny()
     this.socket.close()
   }
 }

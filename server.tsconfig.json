@@ -7,9 +7,8 @@
     "moduleResolution": "node",
     "skipLibCheck": true,
     "target": "ES2017",
-    "esModuleInterop": true,
+    // "esModuleInterop": true,
     "resolveJsonModule": true,
-    "importHelpers": true,
     "sourceMap": true,
     "outDir": "dist"
   },

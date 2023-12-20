@@ -3,16 +3,16 @@ nav {
   display: flex;
 }
 
-a {
+nav a {
   padding: 10px;
   text-decoration: none;
   color: black;
 }
 
-a:hover {
+nav a:hover {
   background-color: darkgray;
 }
 
-.active {
+nav a.active {
   background-color: lightgray;
 }

@@ -12,5 +12,6 @@ export type TestDetail = {
 
 export type TestRun = {
     name: string
+    testDetails: unknown
     tests: TestDetail[]
 }
